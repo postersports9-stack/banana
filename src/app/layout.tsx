@@ -24,6 +24,11 @@ export default function RootLayout({
     >
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+        {/* Warm up the Spline CDN connection. No full-scene preload: the robot
+            is desktop-only and lazy-loaded, so preloading the multi-MB scene
+            would waste bandwidth on mobile where it never mounts. */}
+        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://prod.spline.design" />
       </head>
       <body className="font-body-md text-body-md bg-surface text-on-surface overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
         {children}

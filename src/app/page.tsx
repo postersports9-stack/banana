@@ -2,10 +2,16 @@
 
 import { useRef } from "react";
 import { SplineScene } from "@/components/ui/splite";
-import TextCursorProximity from "@/components/ui/text-cursor-proximity";
+import ClientsMarquee from "@/components/ClientsMarquee";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export default function Home() {
   const containerRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  // The robot is a multi-MB WebGL scene driven by cursor proximity — pointless
+  // on touch devices (no hover) and brutal on weaker hardware. Mount it only on
+  // desktop; below md the element is not rendered at all.
+  const showRobot = useMediaQuery("(min-width: 768px)");
   return (
     <>
       {/* Navigation */}
@@ -46,10 +52,14 @@ export default function Home() {
         ref={containerRef}
         className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden px-margin-mobile md:px-margin-desktop bg-black text-white"
         onPointerMove={(e) => {
-          const canvas = document.querySelector('canvas');
-          if (canvas) {
-            canvas.dispatchEvent(new PointerEvent(e.type, e.nativeEvent));
+          // Cache the canvas after the first lookup so we don't run a DOM query
+          // on every pointer move across the hero.
+          if (!canvasRef.current) {
+            canvasRef.current = document.querySelector('canvas');
           }
+          canvasRef.current?.dispatchEvent(
+            new PointerEvent(e.type, e.nativeEvent)
+          );
         }}
       >
         {/* Abstract Tech Background Element */}
@@ -66,114 +76,41 @@ export default function Home() {
           {/* Hero Content */}
           <div className="flex-1 flex flex-col items-start gap-8 z-20">
             <div className="inline-block text-banana font-label-bold text-sm uppercase tracking-[0.1em]">
-              <TextCursorProximity
-                label="ИЗРАБОТКА НА ВЕБ СТРАНИ ВО МАКЕДОНИЈА"
-                styles={{
-                  transform: { from: "scale(1)", to: "scale(1.1)" },
-                  color: { from: "#FFE135", to: "#FF87C1" },
-                }}
-                falloff="gaussian"
-                radius={100}
-                containerRef={containerRef}
-              />
+              ИЗРАБОТКА НА ВЕБ СТРАНИ ВО МАКЕДОНИЈА
             </div>
             <h1 className="text-3xl md:text-5xl lg:text-[4.5rem] font-extrabold tracking-[-0.04em] leading-[1.05]">
-              <TextCursorProximity
-                label="Креативни веб"
-                className="text-white"
-                styles={{ 
-                  transform: { from: "scale(1)", to: "scale(1.2)" },
-                  color: { from: "#FFFFFF", to: "#FF87C1" }
-                }}
-                falloff="gaussian"
-                radius={100}
-                containerRef={containerRef}
-              />
+              <span className="text-white">Креативни веб</span>
               <br />
-              <TextCursorProximity
-                label="страни"
-                className="text-banana"
-                styles={{ 
-                  transform: { from: "scale(1)", to: "scale(1.2)" },
-                  color: { from: "#FFE135", to: "#FF87C1" }
-                }}
-                falloff="gaussian"
-                radius={100}
-                containerRef={containerRef}
-              />
-              {" "}
-              <TextCursorProximity
-                label="кои носат"
-                className="text-white"
-                styles={{ 
-                  transform: { from: "scale(1)", to: "scale(1.2)" },
-                  color: { from: "#FFFFFF", to: "#FF87C1" }
-                }}
-                falloff="gaussian"
-                radius={100}
-                containerRef={containerRef}
-              />
+              <span className="text-banana">страни</span>{" "}
+              <span className="text-white">кои носат</span>
               <br />
-              <TextCursorProximity
-                label="успех!"
-                className="text-white"
-                styles={{ 
-                  transform: { from: "scale(1)", to: "scale(1.2)" },
-                  color: { from: "#FFFFFF", to: "#FF87C1" }
-                }}
-                falloff="gaussian"
-                radius={100}
-                containerRef={containerRef}
-              />
+              <span className="text-white">успех!</span>
             </h1>
             <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
               <a className="inline-flex items-center justify-center rounded-md bg-banana text-black font-black text-sm uppercase tracking-tighter px-6 py-3 border-2 border-transparent hover:bg-white hover:text-black hover:border-white transition-all duration-300 w-full sm:w-auto" href="#contact">
                 Побарај понуда<span className="material-symbols-outlined ml-2 text-base">arrow_forward</span>
               </a>
-              <a className="inline-flex items-center justify-center rounded-md bg-transparent text-white font-black text-sm uppercase tracking-tighter px-6 py-3 border border-banana/60 hover:bg-banana hover:text-black hover:border-banana hover:scale-105 transition-all duration-300 w-full sm:w-auto" href="#work">
+              <a className="inline-flex items-center justify-center rounded-md bg-transparent text-white font-black text-sm uppercase tracking-tighter px-6 py-3 border border-banana/60 hover:bg-banana hover:text-black hover:border-banana hover:scale-105 transition-all duration-100 w-full sm:w-auto" href="#work">
                 портфолио
               </a>
             </div>
           </div>
-          {/* Hero Image */}
-          <div className="flex-1 w-full mt-12 md:mt-0 relative z-10 flex justify-center md:justify-end">
-            <div className="relative w-full max-w-lg aspect-square">
-              <SplineScene 
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="relative z-10 w-full h-full min-h-[400px]"
-              />
+          {/* Hero Image — desktop only; not mounted on mobile */}
+          {showRobot && (
+            <div className="flex-1 w-full mt-12 md:mt-0 relative z-10 flex justify-center md:justify-end">
+              <div className="relative w-full max-w-lg aspect-square">
+                <SplineScene
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                  className="relative z-10 w-full h-full min-h-[400px]"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </header>
 
-      {/* Stats Section */}
-      <section className="w-full bg-black text-white border-y border-white/10">
-        <div className="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-4xl">deployed_code</span>
-              <span className="font-headline-lg text-xl font-black tracking-tighter uppercase">TechFlow</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-4xl">token</span>
-              <span className="font-headline-lg text-xl font-black tracking-tighter uppercase">Nexus</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-4xl">change_history</span>
-              <span className="font-headline-lg text-xl font-black tracking-tighter uppercase">Apex</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-4xl">all_inclusive</span>
-              <span className="font-headline-lg text-xl font-black tracking-tighter uppercase">Infinity</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-4xl">layers</span>
-              <span className="font-headline-lg text-xl font-black tracking-tighter uppercase">Stack</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Clients Logo Marquee */}
+      <ClientsMarquee />
 
       {/* Services Section */}
       <section className="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop bg-surface" id="services">
@@ -273,7 +210,7 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 bg-banana translate-x-4 translate-y-4 border-4 border-white/10"></div>
               <div className="relative border-4 border-white shadow-[8px_8px_0_0_rgba(255,225,53,1)] overflow-hidden h-[600px] flex items-center justify-center">
-                 <img src="https://lh3.googleusercontent.com/aida/AP1WRLsi0E8YaLU9ZoQCJvNBbNZ2hGbSUwBFjMSP-HrmjQcB9bEIlfPBgwYpwY_17osCXYcM4yGv2ExlXwLa2WO_bLL4FiLwvlytYznzoMY7fYrreW6Z_vKzNfvxnIHEyiKFf3er6Tdjq6H1qLVYy6RkTjcbGMbSG3SNuiqSEbRKfIRBX50-jlYb5c1wLcB48CWdJ0-hjq-t-AH364VG-da9nybBrdZdCvduVjPGgStwSqMOm7qFILRrzNDC2oi3" alt="Abstract modern visual" className="w-full h-full object-cover" />
+                 <img src="https://lh3.googleusercontent.com/aida/AP1WRLsi0E8YaLU9ZoQCJvNBbNZ2hGbSUwBFjMSP-HrmjQcB9bEIlfPBgwYpwY_17osCXYcM4yGv2ExlXwLa2WO_bLL4FiLwvlytYznzoMY7fYrreW6Z_vKzNfvxnIHEyiKFf3er6Tdjq6H1qLVYy6RkTjcbGMbSG3SNuiqSEbRKfIRBX50-jlYb5c1wLcB48CWdJ0-hjq-t-AH364VG-da9nybBrdZdCvduVjPGgStwSqMOm7qFILRrzNDC2oi3" alt="Abstract modern visual" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -298,7 +235,7 @@ export default function Home() {
             </div>
             <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start">
               <div className="flex-shrink-0">
-                <img alt="Даниел Шулер" className="w-24 h-24 rounded-full border-2 border-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MrRlaNYFcwISxDZ8kON_N35TSSkj5i3C3J668MYoCsC5LeJ05hEKakdDjWA5TeP-kHxFMbW335_V5f1xmk3MDcs968XIV2MkLRSOHPaGayiZhzb6F5-inbBEYJ3eX-5cAvMaHy4nmfPalfPuffB95wLMcj4mDjkeA1dxfFBcizhN2dcdLzOZyKLeWzcIf4LW0iCTOwPOCtWKR6uMdxSky_UIO8xc7WLuG-RxUHoX1yqhNgshlanshhBff0l3dvyGJn0n7laNWDr8" />
+                <img alt="Даниел Шулер" loading="lazy" decoding="async" className="w-24 h-24 rounded-full border-2 border-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MrRlaNYFcwISxDZ8kON_N35TSSkj5i3C3J668MYoCsC5LeJ05hEKakdDjWA5TeP-kHxFMbW335_V5f1xmk3MDcs968XIV2MkLRSOHPaGayiZhzb6F5-inbBEYJ3eX-5cAvMaHy4nmfPalfPuffB95wLMcj4mDjkeA1dxfFBcizhN2dcdLzOZyKLeWzcIf4LW0iCTOwPOCtWKR6uMdxSky_UIO8xc7WLuG-RxUHoX1yqhNgshlanshhBff0l3dvyGJn0n7laNWDr8" />
               </div>
               <div className="flex-col">
                 <h3 className="font-headline-lg text-2xl font-black uppercase tracking-[-0.04em] mb-2 text-on-background">ПРЕКРАСНА ВЕБ СТРАНА!</h3>
@@ -342,7 +279,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
             {/* Item 1 (Spans 2 columns on desktop) */}
             <div className="group relative col-span-1 md:col-span-2 aspect-[16/9] bg-white border-4 border-black overflow-hidden shadow-[8px_8px_0_0_rgba(0,0,0,1)] cursor-pointer">
-              <img alt="Gynaecology Clinic Website" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida/AP1WRLuPU8y8nI-vSitqYbbg6iu_nxjYgceaGBYxu3mZ45IBo4byT5i26X4XwgcUDCefY1OZDbUK-6-e8i-dPBryQbVedCI4sfJEKBCyntjK6U9hcoLklwwmj2lEkcpqUa9J0AnYjSw9MbX2E_q3UrjZxHKL1ZP4CKzJxBTcE3lT4hIHEiGrdmcdUAQnzF5O3ELt7V_MPKz6_fgShPNWv-8qhxM1bEEttc_ZlgT-ObK1zcwOD_ZgC-zGFZ4tx6rQ" />
+              <img alt="Gynaecology Clinic Website" loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida/AP1WRLuPU8y8nI-vSitqYbbg6iu_nxjYgceaGBYxu3mZ45IBo4byT5i26X4XwgcUDCefY1OZDbUK-6-e8i-dPBryQbVedCI4sfJEKBCyntjK6U9hcoLklwwmj2lEkcpqUa9J0AnYjSw9MbX2E_q3UrjZxHKL1ZP4CKzJxBTcE3lT4hIHEiGrdmcdUAQnzF5O3ELt7V_MPKz6_fgShPNWv-8qhxM1bEEttc_ZlgT-ObK1zcwOD_ZgC-zGFZ4tx6rQ" />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
                 <h4 className="font-headline-lg text-3xl font-black text-white uppercase tracking-tight mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">MedClinic Pro</h4>
                 <p className="font-body-md text-banana uppercase tracking-widest font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Web Design / Dev</p>
@@ -350,7 +287,7 @@ export default function Home() {
             </div>
             {/* Item 2 */}
             <div className="group relative col-span-1 aspect-square md:aspect-auto bg-black border-4 border-black overflow-hidden shadow-[8px_8px_0_0_rgba(255,225,53,1)] cursor-pointer">
-              <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="A dynamic screenshot of a sports apparel e-commerce website interface, featuring a runner in motion against a rugged landscape. Bold yellow typography 'СПРЕМНИ ЗА ТРЧАЊЕ?' overlaid. High contrast, energetic design style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMs0T2mmYqpV3v8kkyo-QyXXd6YW6TIhvLKb2l3an1QOCqD7XmOviKz2xuMDvMAXqZdcikr34dGohpoLSGWGbQJCn7MFAB6zq-dwrtR8GoyUJ7Nz_6qwsc-rnj02oPVahN5v_jhf0SXpy1kAIrU6gAiGowvny1eB8rMYEhQdlOtpjRRyXwM-tNzGnlLcppqULvf1Bhof24ps4H9oEIcsYL2Y3WijQDsS4_eqNdYfkJfRwJDR0fsdaPqvaetjhEdcEeMRbBDuvbTiIU" />
+              <img loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="A dynamic screenshot of a sports apparel e-commerce website interface, featuring a runner in motion against a rugged landscape. Bold yellow typography 'СПРЕМНИ ЗА ТРЧАЊЕ?' overlaid. High contrast, energetic design style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMs0T2mmYqpV3v8kkyo-QyXXd6YW6TIhvLKb2l3an1QOCqD7XmOviKz2xuMDvMAXqZdcikr34dGohpoLSGWGbQJCn7MFAB6zq-dwrtR8GoyUJ7Nz_6qwsc-rnj02oPVahN5v_jhf0SXpy1kAIrU6gAiGowvny1eB8rMYEhQdlOtpjRRyXwM-tNzGnlLcppqULvf1Bhof24ps4H9oEIcsYL2Y3WijQDsS4_eqNdYfkJfRwJDR0fsdaPqvaetjhEdcEeMRbBDuvbTiIU" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
               <div className="absolute bottom-0 left-0 p-6">
                 <h4 className="font-headline-lg text-2xl font-black text-white uppercase tracking-tight mb-1">Sport Lab Shop</h4>
@@ -359,7 +296,7 @@ export default function Home() {
             </div>
             {/* Item 3 */}
             <div className="group relative col-span-1 aspect-square bg-white border-4 border-black overflow-hidden shadow-[8px_8px_0_0_rgba(0,0,0,1)] cursor-pointer">
-              <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0" alt="Dark themed website interface for a truck repair service 'Nova Repair'. Minimalist layout, stark white typography on deep black background, industrial and professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq5v2bjARoeQJP3Wsl8LUlNUNlBfDnsJKsCtULFuoSbw_WQxOPjcEKs6IA4G_JrKedW2gemNJDOwbL1gQCjQuvvtRNk_8Sc_Tvl-LPtXlOn912RdHIstxt8ONR39oetoj_hwDZUNW_P1Pi95VZZ13Wb8Gzq6I6a4dS5ROKnPT_Ctv07rYxA3lOCFEAI6xCiygEHr_8qloBC9csDVRXwCqWIJnZfWfvxR84vUtOesfULZM5DM_T7B05Is6KC61DUVXuyx4j6h0hOJZ_" />
+              <img loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0" alt="Dark themed website interface for a truck repair service 'Nova Repair'. Minimalist layout, stark white typography on deep black background, industrial and professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq5v2bjARoeQJP3Wsl8LUlNUNlBfDnsJKsCtULFuoSbw_WQxOPjcEKs6IA4G_JrKedW2gemNJDOwbL1gQCjQuvvtRNk_8Sc_Tvl-LPtXlOn912RdHIstxt8ONR39oetoj_hwDZUNW_P1Pi95VZZ13Wb8Gzq6I6a4dS5ROKnPT_Ctv07rYxA3lOCFEAI6xCiygEHr_8qloBC9csDVRXwCqWIJnZfWfvxR84vUtOesfULZM5DM_T7B05Is6KC61DUVXuyx4j6h0hOJZ_" />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                 <h4 className="font-headline-lg text-2xl font-black text-white uppercase tracking-tight mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Nova Repair</h4>
                 <p className="font-body-md text-banana uppercase tracking-widest font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Corporate Site</p>

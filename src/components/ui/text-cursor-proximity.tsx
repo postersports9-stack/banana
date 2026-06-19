@@ -1,8 +1,25 @@
 "use client"
 
-import React, { CSSProperties, forwardRef, useRef } from "react"
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useRef } from "react"
 import { motion, useAnimationFrame, useMotionValue, useTransform } from "motion/react"
 import { useMousePositionRef } from "@/hooks/use-mouse-position-ref"
+
+// Shared per-frame state: whether the effect should run this frame, and the
+// container rect (read once per frame for all letters instead of once per
+// letter). Returned by the getFrameState callback below.
+type FrameState = {
+  active: boolean
+  // True when this frame is throttled out — letters hold their current value
+  // rather than recomputing or resetting.
+  skip: boolean
+  containerRect: DOMRect | null
+  mouseX: number
+  mouseY: number
+}
+
+// Recompute the proximity effect at ~30fps instead of every frame. Halves the
+// layout reads while active; visually indistinguishable for this effect.
+const FRAME_INTERVAL_MS = 32
 
 // Helper type that makes all properties of CSSProperties accept number | string
 type CSSPropertiesWithValues = {
@@ -27,15 +44,13 @@ interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
 const Letter = ({
   letter,
   styles,
-  containerRef,
-  mousePositionRef,
+  getFrameState,
   radius,
   falloff,
 }: {
   letter: string
   styles: TextProps["styles"]
-  containerRef: React.RefObject<HTMLElement | null>
-  mousePositionRef: React.MutableRefObject<{ x: number; y: number }>
+  getFrameState: (time: number) => FrameState
   radius: number
   falloff: string
 }) => {
@@ -64,17 +79,29 @@ const Letter = ({
     }
   }
 
-  useAnimationFrame(() => {
-    if (!containerRef.current || !letterRef.current) return
-    const containerRect = containerRef.current.getBoundingClientRect()
+  useAnimationFrame((time) => {
+    if (!letterRef.current) return
+
+    // Shared per-frame gate: skips the layout reads below entirely when the
+    // hero is off-screen or the cursor is outside it. In those cases every
+    // letter rests at proximity 0 (identical to the previous behaviour), so
+    // there is nothing to compute.
+    const frame = getFrameState(time)
+    if (frame.skip) return
+    if (!frame.active || !frame.containerRect) {
+      if (proximity.get() !== 0) proximity.set(0)
+      return
+    }
+
+    const containerRect = frame.containerRect
     const rect = letterRef.current.getBoundingClientRect()
-    
+
     const letterCenterX = rect.left + rect.width / 2 - containerRect.left
     const letterCenterY = rect.top + rect.height / 2 - containerRect.top
 
     const distance = calculateDistance(
-      mousePositionRef.current.x,
-      mousePositionRef.current.y,
+      frame.mouseX,
+      frame.mouseY,
       letterCenterX,
       letterCenterY
     )
@@ -124,6 +151,69 @@ const TextCursorProximity = forwardRef<HTMLSpanElement, TextProps>(
     const mousePositionRef = useMousePositionRef(containerRef)
     const words = label.split(" ")
 
+    // Is the hero in the viewport? Updated by IntersectionObserver, not polled.
+    const inViewRef = useRef(true)
+    useEffect(() => {
+      const el = containerRef.current
+      if (!el) return
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          inViewRef.current = entry.isIntersecting
+        },
+        { threshold: 0 }
+      )
+      io.observe(el)
+      return () => io.disconnect()
+    }, [containerRef])
+
+    // Compute the shared frame state at most once per animation frame. Every
+    // letter calls this with motion's frame timestamp; the result is cached by
+    // timestamp so the container rect is read once per frame, not once per
+    // letter. `active` is false (and no layout is read) when the hero is
+    // off-screen or the cursor is outside it plus a `radius` margin.
+    const frameCache = useRef<{ time: number; lastComputed: number; state: FrameState }>({
+      time: -1,
+      lastComputed: -Infinity,
+      state: { active: false, skip: false, containerRect: null, mouseX: 0, mouseY: 0 },
+    })
+    const getFrameState = useCallback(
+      (time: number): FrameState => {
+        const cache = frameCache.current
+        if (time === cache.time) return cache.state
+        cache.time = time
+        const state = cache.state
+
+        // Throttle to ~30fps: on skipped frames letters hold their value.
+        if (time - cache.lastComputed < FRAME_INTERVAL_MS) {
+          state.skip = true
+          return state
+        }
+        cache.lastComputed = time
+        state.skip = false
+
+        const el = containerRef.current
+        if (!inViewRef.current || !el) {
+          state.active = false
+          state.containerRect = null
+          return state
+        }
+
+        const rect = el.getBoundingClientRect()
+        const { x, y } = mousePositionRef.current
+        const margin = radius
+        state.active =
+          x >= -margin &&
+          y >= -margin &&
+          x <= rect.width + margin &&
+          y <= rect.height + margin
+        state.containerRect = rect
+        state.mouseX = x
+        state.mouseY = y
+        return state
+      },
+      [containerRef, mousePositionRef, radius]
+    )
+
     return (
       <span
         ref={ref}
@@ -138,8 +228,7 @@ const TextCursorProximity = forwardRef<HTMLSpanElement, TextProps>(
                 key={letterIndex}
                 letter={letter}
                 styles={styles}
-                containerRef={containerRef}
-                mousePositionRef={mousePositionRef}
+                getFrameState={getFrameState}
                 radius={radius}
                 falloff={falloff}
               />
