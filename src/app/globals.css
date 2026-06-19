@@ -96,7 +96,35 @@ body {
 }
 
 .material-symbols-outlined {
+  /* Google's css2 endpoint ships only the @font-face — the helper class is
+     ours to define. Without font-family the spans render their ligature text
+     (e.g. "arrow_forward") in the body font instead of the icon. font-size is
+     deliberately left to the text-* utilities on each span. */
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
   font-variation-settings: 'FILL' 1;
+}
+
+/* Frozen diagonal-line texture behind the service cards. Static (no animation)
+   — purely a repeating gradient, so it costs nothing to paint. */
+.bg-diagonal-lines {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.05) 0,
+    rgba(0, 0, 0, 0.05) 1px,
+    transparent 1px,
+    transparent 14px
+  );
 }
 
 .bg-banana { background-color: var(--color-banana); }

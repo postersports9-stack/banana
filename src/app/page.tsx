@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       {/* Navigation */}
-      <nav className="bg-black w-full top-0 sticky z-50 transition-all duration-300 border-b border-white/10">
+      <nav className="bg-black/50 backdrop-blur-xl backdrop-saturate-150 w-full top-0 sticky z-50 transition-all duration-300 border-b border-white/10">
         <div className="flex justify-between items-center h-20 w-full max-w-max-width mx-auto">
           <a className="flex items-center h-full pl-2 pr-4 md:pl-4 md:pr-6 border-r border-white/10" href="#">
             <img alt="Banana Studio Logo" className="h-14 w-auto object-contain" src="/logo.webp" />
@@ -116,18 +116,18 @@ export default function Home() {
       <section className="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop bg-surface" id="services">
         <div className="max-w-max-width mx-auto">
           <div className="flex flex-col items-center text-center mb-16 gap-6 mx-auto max-w-4xl">
-            <div className="max-w-2xl">
-              <h2 className="font-headline-xl text-headline-lg-mobile md:text-headline-lg font-black text-on-background uppercase tracking-tighter mb-4">
-                Ние изработуваме веб страни и интернет продавници кои помагаат да биде најден вашиот бизнис.
+            <div className="max-w-3xl">
+              <h2 className="font-headline-xl text-headline-lg-mobile md:text-headline-lg font-bold text-on-background uppercase tracking-tighter mb-4">
+                Ние изработуваме веб страни и интернет продавници кои помагаат да ги привлечете вашите идеални клиенти.
               </h2>
-              <p className="font-body-md text-on-surface-variant max-w-2xl mx-auto">
-                Тим од професионалци со 17 години искуство во Веб дизајнот во Македонија и Европа. Вршиме Изработка на веб страна, веб сајт, изработка на онлајн продавници, редизајн застарени веб страни. Исто така вршиме и одржување, и постојана заштита и мониторинг на вашите веб страни.
+              <p className="font-body-md text-on-surface-variant max-w-3xl mx-auto">
+                Тим од амбициозни веб дизајнери кој работат во Македонија и цела Европа. Вршиме Изработка на веб страна, веб сајт, изработка на онлајн продавници, редизајн застарени веб страни, но главен фокус ни се да сме целосно решение преку годишни пакети, за да не трошите време со одржување на веб-страната.
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter max-w-5xl mx-auto">
             {/* Card 1 */}
-            <div className="group bg-white border-4 border-black p-8 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full text-center items-center">
+            <div className="group bg-white bg-diagonal-lines border-4 border-black p-8 cursor-pointer hover:shadow-[0_0_25px_rgba(255,225,53,0.45)] transition-all duration-300 flex flex-col h-full text-center items-center">
               <div className="w-16 h-16 bg-white flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-black text-4xl">edit_note</span>
               </div>
@@ -135,7 +135,7 @@ export default function Home() {
               <p className="font-body-md text-on-surface-variant">Професионална веб страна изработена по ваша мерка. Нашите веб страни се уникатни и креирани за да ја зголемат вашата видливост и профит.</p>
             </div>
             {/* Card 2 */}
-            <div className="group bg-white border-4 border-black p-8 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full text-center items-center">
+            <div className="group bg-white bg-diagonal-lines border-4 border-black p-8 cursor-pointer hover:shadow-[0_0_25px_rgba(255,225,53,0.45)] transition-all duration-300 flex flex-col h-full text-center items-center">
               <div className="w-16 h-16 bg-white flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-black text-4xl">shopping_cart</span>
               </div>
@@ -143,7 +143,7 @@ export default function Home() {
               <p className="font-body-md text-on-surface-variant">Изработка на онлајн продавници кои лесно и едноставно ги продаваат вашите производи и услуги и ги прават лесно достапни за потрошувачите.</p>
             </div>
             {/* Card 3 */}
-            <div className="group bg-white border-4 border-black p-8 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full text-center items-center">
+            <div className="group bg-white bg-diagonal-lines border-4 border-black p-8 cursor-pointer hover:shadow-[0_0_25px_rgba(255,225,53,0.45)] transition-all duration-300 flex flex-col h-full text-center items-center">
               <div className="w-16 h-16 bg-white flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-black text-4xl">settings</span>
               </div>
@@ -151,7 +151,7 @@ export default function Home() {
               <p className="font-body-md text-on-surface-variant">Одржување на веб страница подразбира мониторинг и постојано ажурирање, потребно за да се осигура постојано функционирање без прекини и проблеми.</p>
             </div>
             {/* Card 4 */}
-            <div className="group bg-white border-4 border-black p-8 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full text-center items-center">
+            <div className="group bg-white bg-diagonal-lines border-4 border-black p-8 cursor-pointer hover:shadow-[0_0_25px_rgba(255,225,53,0.45)] transition-all duration-300 flex flex-col h-full text-center items-center">
               <div className="w-16 h-16 bg-white flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-black text-4xl">search</span>
               </div>
@@ -163,62 +163,112 @@ export default function Home() {
       </section>
 
       {/* Feature Split Section */}
-      <section className="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop bg-black text-white border-y-4 border-black">
-        <div className="max-w-max-width mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left Side: 2x2 Grid of Feature Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+      <section className="relative w-full py-12 md:py-16 bg-banana overflow-hidden">
+        <div className="w-full max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop">
+          {/* Left Side: Title + 2x2 Grid of Flip Cards */}
+          <div className="flex flex-col justify-center lg:w-1/2 lg:pr-4 lg:-ml-12">
+              <div className="mb-8 text-center lg:text-left">
+                <span className="inline-block bg-black text-banana px-4 py-1 font-label-bold text-label-bold tracking-widest mb-4">
+                  Зошто Banana Studio
+                </span>
+                <h2 className="font-headline-xl text-headline-lg-mobile md:text-headline-lg font-bold text-on-background tracking-tighter">
+                  Веб страни кои ви добиваат доверба и ве ставаат пред вашите клиенти
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
               {/* Card 1 */}
-              <div className="flex flex-col items-center text-center p-8 border-4 border-white/10 hover:border-banana transition-colors duration-300">
-                <div className="mb-6">
-                  <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.75 3.104v1.244c0 .892-.612 1.59-1.428 1.59h-.144c-.816 0-1.428-.698-1.428-1.59V3.104c0-.892.612-1.59 1.428-1.59h.144c.816 0 1.428.698 1.428 1.59zM17.25 16.226V15a2.25 2.25 0 00-2.25-2.25H9a2.25 2.25 0 00-2.25 2.25v1.226a4.49 4.49 0 00-1.135 2.452l-.215 1.287a1.125 1.125 0 001.111 1.31h10.978a1.125 1.125 0 001.111-1.31l-.215-1.287a4.49 4.49 0 00-1.135-2.452z" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <path d="M12 18.75v-3m0 0L10.5 17.25m1.5-1.5l1.5 1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                  </svg>
+              <div className="group h-44 [perspective:1000px]">
+                <div className="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                  {/* Front */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col items-center justify-center text-center p-8 bg-black border-4 border-black rounded-2xl">
+                    <div className="mb-6">
+                      <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.75 3.104v1.244c0 .892-.612 1.59-1.428 1.59h-.144c-.816 0-1.428-.698-1.428-1.59V3.104c0-.892.612-1.59 1.428-1.59h.144c.816 0 1.428.698 1.428 1.59zM17.25 16.226V15a2.25 2.25 0 00-2.25-2.25H9a2.25 2.25 0 00-2.25 2.25v1.226a4.49 4.49 0 00-1.135 2.452l-.215 1.287a1.125 1.125 0 001.111 1.31h10.978a1.125 1.125 0 001.111-1.31l-.215-1.287a4.49 4.49 0 00-1.135-2.452z" strokeLinecap="round" strokeLinejoin="round"></path>
+                        <path d="M12 18.75v-3m0 0L10.5 17.25m1.5-1.5l1.5 1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                      </svg>
+                    </div>
+                    <h4 className="font-headline-lg text-xl font-bold tracking-[-0.04em] text-white">Амбициозен труд</h4>
+                  </div>
+                  {/* Back */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center text-center p-6 bg-black border-4 border-banana rounded-2xl">
+                    <h4 className="font-headline-lg text-lg font-bold tracking-[-0.04em] text-banana mb-3">Амбициозен труд</h4>
+                    <p className="font-body-md text-sm text-white/80">Не застануваме на просечно. Работиме макотрпно за секој проект да ги надмине очекувањата и да донесе вистински резултати.</p>
+                  </div>
                 </div>
-                <h4 className="font-headline-lg text-xl font-black uppercase tracking-[-0.04em]">Амбициозен труд</h4>
               </div>
               {/* Card 2 */}
-              <div className="flex flex-col items-center text-center p-8 border-4 border-white/10 hover:border-banana transition-colors duration-300">
-                <div className="mb-6">
-                  <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.25 15L17.5 17.625 14.875 18.375 17.5 19.125 18.25 21.75 19 19.125 21.625 18.375 19 17.625 18.25 15zM14.25 3L13.5 5.625 10.875 6.375 13.5 7.125 14.25 9.75 15 7.125 17.625 6.375 15 5.625 14.25 3z" strokeLinecap="round" strokeLinejoin="round"></path>
-                  </svg>
+              <div className="group h-44 [perspective:1000px]">
+                <div className="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                  {/* Front */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col items-center justify-center text-center p-8 bg-black border-4 border-black rounded-2xl">
+                    <div className="mb-6">
+                      <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.25 15L17.5 17.625 14.875 18.375 17.5 19.125 18.25 21.75 19 19.125 21.625 18.375 19 17.625 18.25 15zM14.25 3L13.5 5.625 10.875 6.375 13.5 7.125 14.25 9.75 15 7.125 17.625 6.375 15 5.625 14.25 3z" strokeLinecap="round" strokeLinejoin="round"></path>
+                      </svg>
+                    </div>
+                    <h4 className="font-headline-lg text-xl font-bold tracking-[-0.04em] text-white">Креативен тим</h4>
+                  </div>
+                  {/* Back */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center text-center p-6 bg-black border-4 border-banana rounded-2xl">
+                    <h4 className="font-headline-lg text-lg font-bold tracking-[-0.04em] text-banana mb-3">Креативен тим</h4>
+                    <p className="font-body-md text-sm text-white/80">Дизајнери и програмери со страст за детали, кои спојуваат естетика и функционалност во секоја веб страна.</p>
+                  </div>
                 </div>
-                <h4 className="font-headline-lg text-xl font-black uppercase tracking-[-0.04em]">Креативен тим</h4>
               </div>
               {/* Card 3 */}
-              <div className="flex flex-col items-center text-center p-8 border-4 border-white/10 hover:border-banana transition-colors duration-300">
-                <div className="mb-6">
-                  <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 18v3m0 0l.75-.75M12 21l-.75-.75M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h3m16 0h3M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 7a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5z" strokeLinecap="round" strokeLinejoin="round"></path>
-                  </svg>
+              <div className="group h-44 [perspective:1000px]">
+                <div className="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                  {/* Front */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col items-center justify-center text-center p-8 bg-black border-4 border-black rounded-2xl">
+                    <div className="mb-6">
+                      <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 18v3m0 0l.75-.75M12 21l-.75-.75M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h3m16 0h3M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 7a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5z" strokeLinecap="round" strokeLinejoin="round"></path>
+                      </svg>
+                    </div>
+                    <h4 className="font-headline-lg text-xl font-bold tracking-[-0.04em] text-white">Напредни решенија</h4>
+                  </div>
+                  {/* Back */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center text-center p-6 bg-black border-4 border-banana rounded-2xl">
+                    <h4 className="font-headline-lg text-lg font-bold tracking-[-0.04em] text-banana mb-3">Напредни решенија</h4>
+                    <p className="font-body-md text-sm text-white/80">Користиме најнови технологии и пристапи за брзи, безбедни и скалабилни веб страни спремни за иднината.</p>
+                  </div>
                 </div>
-                <h4 className="font-headline-lg text-xl font-black uppercase tracking-[-0.04em]">Напредни решенија</h4>
               </div>
               {/* Card 4 */}
-              <div className="flex flex-col items-center text-center p-8 border-4 border-white/10 hover:border-banana transition-colors duration-300">
-                <div className="mb-6">
-                  <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" strokeLinecap="round" strokeLinejoin="round"></path>
-                  </svg>
+              <div className="group h-44 [perspective:1000px]">
+                <div className="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                  {/* Front */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col items-center justify-center text-center p-8 bg-black border-4 border-black rounded-2xl">
+                    <div className="mb-6">
+                      <svg className="w-16 h-16 text-banana" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" strokeLinecap="round" strokeLinejoin="round"></path>
+                      </svg>
+                    </div>
+                    <h4 className="font-headline-lg text-xl font-bold tracking-[-0.04em] text-white">Среќни клиенти</h4>
+                  </div>
+                  {/* Back */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-center text-center p-6 bg-black border-4 border-banana rounded-2xl">
+                    <h4 className="font-headline-lg text-lg font-bold tracking-[-0.04em] text-banana mb-3">Среќни клиенти</h4>
+                    <p className="font-body-md text-sm text-white/80">Долгорочни соработки изградени на доверба. Вашиот успех е нашата најголема препорака.</p>
+                  </div>
                 </div>
-                <h4 className="font-headline-lg text-xl font-black uppercase tracking-[-0.04em]">Среќни клиенти</h4>
               </div>
-            </div>
-            {/* Right Side: Image */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-banana translate-x-4 translate-y-4 border-4 border-white/10"></div>
-              <div className="relative border-4 border-white shadow-[8px_8px_0_0_rgba(255,225,53,1)] overflow-hidden h-[600px] flex items-center justify-center">
-                 <img src="https://lh3.googleusercontent.com/aida/AP1WRLsi0E8YaLU9ZoQCJvNBbNZ2hGbSUwBFjMSP-HrmjQcB9bEIlfPBgwYpwY_17osCXYcM4yGv2ExlXwLa2WO_bLL4FiLwvlytYznzoMY7fYrreW6Z_vKzNfvxnIHEyiKFf3er6Tdjq6H1qLVYy6RkTjcbGMbSG3SNuiqSEbRKfIRBX50-jlYb5c1wLcB48CWdJ0-hjq-t-AH364VG-da9nybBrdZdCvduVjPGgStwSqMOm7qFILRrzNDC2oi3" alt="Abstract modern visual" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              </div>
+              <div className="mt-6 text-center lg:text-right">
+                <a href="#work" className="inline-flex items-center justify-center rounded bg-white text-black font-semibold text-sm tracking-tight px-6 py-3 hover:bg-black hover:text-white transition-all duration-300">
+                  Видете го нашето портфолио
+                </a>
               </div>
             </div>
           </div>
+        {/* Right Side: Image — full-bleed to right wall */}
+        <div className="relative w-full h-72 mt-12 lg:mt-0 lg:h-auto lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+          <img src="/feature-split-2.webp" alt="Banana Studio екипа на работа" loading="lazy" decoding="async" className="w-full h-full object-cover" />
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop bg-white border-t-4 border-black" id="testimonials">
+      <section className="w-full py-24 md:py-32 px-margin-mobile md:px-margin-desktop bg-white" id="testimonials">
         <div className="max-w-max-width mx-auto">
           <div className="text-center mb-16">
             <p className="font-label-bold text-label-bold text-banana uppercase tracking-widest mb-4">ВЕБ ДИЗАЈН МАКЕДОНИЈА</p>
