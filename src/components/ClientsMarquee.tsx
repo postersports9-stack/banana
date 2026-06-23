@@ -46,12 +46,12 @@ function ClientLogo({ client }: { client: Client }) {
   );
 }
 
-export default function ClientsMarquee() {
+export default function ClientsMarquee({ heading }: { heading: string }) {
   return (
     <section className="w-full bg-black text-white border-y border-white/10 overflow-hidden">
       <div className="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-10">
         <p className="text-center font-label-bold text-label-bold text-white/40 uppercase tracking-widest mb-8">
-          Доверба од нашите клиенти
+          {heading}
         </p>
         <div className="group relative flex overflow-hidden">
           {/* Edge fades */}

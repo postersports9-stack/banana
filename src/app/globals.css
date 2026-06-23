@@ -63,10 +63,13 @@
   --font-label-bold: var(--font-montserrat);
   --font-headline-lg-mobile: var(--font-montserrat);
 
+  /* Design convention: keep type weights restrained. Headlines top out at
+     ~600–700 (not 800/900) so big text reads bold without feeling heavy.
+     Prefer font-semibold/font-bold over font-extrabold/font-black in markup. */
   --text-headline-lg: 40px;
   --text-headline-lg--line-height: 1.2;
   --text-headline-lg--letter-spacing: -0.01em;
-  --text-headline-lg--font-weight: 800;
+  --text-headline-lg--font-weight: 600;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 1.6;
@@ -75,7 +78,7 @@
   --text-headline-xl: 64px;
   --text-headline-xl--line-height: 1.1;
   --text-headline-xl--letter-spacing: -0.02em;
-  --text-headline-xl--font-weight: 900;
+  --text-headline-xl--font-weight: 700;
 
   --text-body-md: 16px;
   --text-body-md--line-height: 1.5;
@@ -83,15 +86,25 @@
 
   --text-label-bold: 14px;
   --text-label-bold--line-height: 1.2;
-  --text-label-bold--font-weight: 700;
+  --text-label-bold--font-weight: 600;
 
   --text-headline-lg-mobile: 32px;
   --text-headline-lg-mobile--line-height: 1.2;
-  --text-headline-lg-mobile--font-weight: 800;
+  --text-headline-lg-mobile--font-weight: 600;
+
+  /* Design convention: borders stay thin (1–2px, never 4px+) and corners get a
+     slight radius. --radius-card / --radius-btn are the house defaults so cards
+     and buttons round consistently. */
+  --radius-card: 0.625rem;
+  --radius-btn: 0.5rem;
 }
 
 body {
-  background-color: var(--color-background);
+  /* Black so the glassy sticky nav has dark behind it at scroll 0 instead of
+     the light surface bleeding through its backdrop-blur (made the bar gray).
+     Every section sets its own bg, so this only shows behind the nav + on
+     overscroll, both of which want to be dark to match the hero. */
+  background-color: #000;
   color: var(--color-on-surface);
 }
 
@@ -127,9 +140,28 @@ body {
   );
 }
 
+/* Light-on-dark variant of the diagonal texture, for use over black sections. */
+.bg-diagonal-lines-light {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.04) 0,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+}
+
 .bg-banana { background-color: var(--color-banana); }
 .text-banana { color: var(--color-banana); }
 .border-banana { border-color: var(--color-banana); }
+
+/* Safety net: native buttons pick up the house corner radius even without a
+   utility class. In @layer base so rounded-* utilities (e.g. the round
+   pagination dots) still override it. Anchor-styled buttons add rounded-*
+   explicitly in markup. */
+@layer base {
+  button { border-radius: var(--radius-btn); }
+}
 
 /* Clients logo marquee */
 @keyframes marquee {
