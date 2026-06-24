@@ -1,12 +1,27 @@
 import type { MetadataRoute } from "next";
+import { getPosts, postPath } from "@/lib/blog";
 
 const siteUrl = "https://banana.mk";
 
-// Homepage + the website-development service page (both locales). The blog is
-// the next step and its routes will be appended here once they exist (a sitemap
-// must not list pages that 404).
+// Homepage, service pages, portfolio and the blog (index + every post, both
+// locales). Blog routes are derived from the data module so new posts appear
+// here automatically (a sitemap must not list pages that 404).
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
+  const blogRoutes: MetadataRoute.Sitemap = (["mk", "en"] as const).flatMap((lang) => [
+    {
+      url: `${siteUrl}${lang === "mk" ? "/informacii" : "/en/blog"}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: lang === "mk" ? 0.8 : 0.7,
+    },
+    ...getPosts(lang).map((post) => ({
+      url: `${siteUrl}${postPath(lang, post.slug)}`,
+      lastModified: new Date(post.dateModified),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ]);
   return [
     {
       url: siteUrl,
@@ -68,5 +83,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...blogRoutes,
   ];
 }

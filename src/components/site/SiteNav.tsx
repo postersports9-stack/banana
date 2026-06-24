@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { translations, languages, type Lang } from "@/lib/translations";
+import { getPosts, blogBasePath, postPath, coverImage } from "@/lib/blog";
 
 // Shared sticky site navigation. Rendered by both the home page and the
 // service pages. `onQuoteClick` opens the page-owned quote modal; the "Веб
@@ -20,6 +21,8 @@ export default function SiteNav({
   const webStorePath = lang === "mk" ? "/izrabotka-na-web-prodavnica" : "/en/web-store";
   const seoPath = lang === "mk" ? "/seo-optimizacija" : "/en/seo";
   const portfolioPath = lang === "mk" ? "/portfolio" : "/en/portfolio";
+  const infoPath = blogBasePath(lang);
+  const posts = getPosts(lang);
   return (
     <nav className="bg-black/70 backdrop-blur-xl backdrop-saturate-150 w-full top-0 sticky z-50 transition-all duration-300 border-b border-white/10">
       <div className="flex justify-between items-center h-16 w-full max-w-max-width mx-auto">
@@ -57,34 +60,35 @@ export default function SiteNav({
               </div>
             </div>
 
-            {/* Resources — blog preview dropdown */}
+            {/* Информации — blog preview dropdown (large cards, matching the
+                Веб дизајн dropdown). Posts come from the blog data module. */}
             <div className="relative h-full flex items-center group">
-              <a className="text-white hover:text-banana transition-colors flex items-center gap-1 cursor-pointer" href="#services">
+              <Link className="text-white hover:text-banana transition-colors flex items-center gap-1 cursor-pointer" href={infoPath}>
                 {t.nav.info}
                 <svg className="w-3 h-3 mt-px transition-transform duration-200 group-hover:rotate-180" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
-              <div className="absolute top-full left-0 pt-4 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50">
-                <div className="w-[680px] bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 p-3">
+              </Link>
+              <div className="fixed top-16 left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50">
+                <div className="w-[1268px] max-w-[92vw] bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 p-3">
                   <div className="flex items-center justify-between px-2 pb-2 mb-1">
                     <span className="text-black/40 text-[11px] uppercase tracking-wider font-semibold">{t.nav.blog}</span>
-                    <a href="#services" className="flex items-center gap-1 text-black/60 hover:text-black text-xs font-medium transition-colors">
+                    <Link href={infoPath} className="flex items-center gap-1 text-black/60 hover:text-black text-xs font-medium transition-colors">
                       {t.nav.allPosts}
                       <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                         <path d="M4.5 2.5 8 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </a>
+                    </Link>
                   </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    {t.nav.posts.map((post) => (
-                      <a key={post.title} href="#services" className="rounded-xl p-2 hover:bg-black/[0.03] transition-colors">
-                        <div className="h-24 mb-2 rounded-lg overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-3xl text-black/30">image</span>
+                  <div className="grid grid-cols-4 gap-3">
+                    {posts.map((post) => (
+                      <Link key={post.slug} href={postPath(lang, post.slug)} className="rounded-xl p-3 hover:bg-black/[0.03] transition-colors">
+                        <div className="aspect-[3/2] mb-3 rounded-lg overflow-hidden bg-zinc-100">
+                          <img src={coverImage(post.cover)} alt={post.imageAlt} className="w-full h-full object-cover" />
                         </div>
-                        <h4 className="text-black font-semibold text-[13px] leading-snug tracking-tight line-clamp-2">{post.title}</h4>
-                        <p className="mt-1 text-black/45 text-[11px] font-normal">{post.meta}</p>
-                      </a>
+                        <h4 className="text-black font-semibold text-sm tracking-tight line-clamp-2">{post.title}</h4>
+                        <p className="mt-1 text-black/55 text-xs font-normal leading-relaxed line-clamp-2">{post.excerpt}</p>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -93,7 +97,7 @@ export default function SiteNav({
 
             <Link className="text-white hover:text-banana transition-colors" href={seoPath}>{t.nav.seo}</Link>
             <Link className="text-white hover:text-banana transition-colors" href={portfolioPath}>{t.nav.portfolio}</Link>
-            <a className="text-white hover:text-banana transition-colors" href="#contact">{t.nav.contact}</a>
+            <button type="button" onClick={onQuoteClick} className="text-white hover:text-banana transition-colors cursor-pointer">{t.nav.contact}</button>
 
             {/* Language switcher — opens on hover, each option links to its locale route */}
             <div className="relative h-full flex items-center group ml-4">

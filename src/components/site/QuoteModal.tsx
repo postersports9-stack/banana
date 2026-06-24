@@ -38,6 +38,37 @@ export default function QuoteModal({
   lang: Lang;
 }) {
   const t = translations[lang];
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  // Reset back to a blank form each time the modal is reopened.
+  useEffect(() => {
+    if (!open) setStatus("idle");
+  }, [open]);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("sending");
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      name: fd.get("name"),
+      company: fd.get("company"),
+      activity: fd.get("activity"),
+      phone: fd.get("phone"),
+      website: fd.get("website"), // honeypot
+    };
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("request failed");
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   if (!open) return null;
   return (
     <div
@@ -70,33 +101,45 @@ export default function QuoteModal({
         <p className="font-body-md text-sm text-white/60 mb-6">
           {t.modal.subtitle}
         </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onClose();
-          }}
-          className="flex flex-col gap-4"
-        >
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="q-name" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.nameLabel}</label>
-            <input id="q-name" name="name" type="text" required placeholder={t.modal.namePlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="q-company" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.companyLabel}</label>
-            <input id="q-company" name="company" type="text" required placeholder={t.modal.companyPlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="q-activity" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.activityLabel}</label>
-            <input id="q-activity" name="activity" type="text" required placeholder={t.modal.activityPlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="q-phone" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.phoneLabel}</label>
-            <input id="q-phone" name="phone" type="tel" required placeholder={t.modal.phonePlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
-          </div>
-          <button type="submit" className="mt-2 inline-flex items-center justify-center rounded-lg bg-banana text-black font-label-bold text-label-bold uppercase tracking-tighter px-6 py-3 border-2 border-banana hover:bg-white hover:text-black hover:border-white transition-all duration-200">
-            {t.modal.submit}
-          </button>
-        </form>
+        {status === "sent" ? (
+          <p className="font-body-md text-sm text-banana py-6 text-center">
+            {t.modal.success}
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* Honeypot — hidden from users, catches bots. */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] h-0 w-0 opacity-0"
+            />
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="q-name" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.nameLabel}</label>
+              <input id="q-name" name="name" type="text" required placeholder={t.modal.namePlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="q-company" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.companyLabel}</label>
+              <input id="q-company" name="company" type="text" required placeholder={t.modal.companyPlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="q-activity" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.activityLabel}</label>
+              <input id="q-activity" name="activity" type="text" required placeholder={t.modal.activityPlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="q-phone" className="font-label-bold text-xs text-white/70 uppercase tracking-wider">{t.modal.phoneLabel}</label>
+              <input id="q-phone" name="phone" type="tel" required placeholder={t.modal.phonePlaceholder} className="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:border-banana focus:outline-none transition-colors" />
+            </div>
+            {status === "error" && (
+              <p className="font-body-md text-sm text-red-400">{t.modal.error}</p>
+            )}
+            <button type="submit" disabled={status === "sending"} className="mt-2 inline-flex items-center justify-center rounded-lg bg-banana text-black font-label-bold text-label-bold uppercase tracking-tighter px-6 py-3 border-2 border-banana hover:bg-white hover:text-black hover:border-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+              {status === "sending" ? t.modal.sending : t.modal.submit}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -98,7 +98,6 @@ export type Dict = {
     info: string;
     blog: string;
     allPosts: string;
-    posts: { title: string; meta: string }[];
     seo: string;
     portfolio: string;
     contact: string;
@@ -173,6 +172,9 @@ export type Dict = {
     phoneLabel: string;
     phonePlaceholder: string;
     submit: string;
+    sending: string;
+    success: string;
+    error: string;
   };
 };
 
@@ -188,11 +190,6 @@ export const translations: Record<Lang, Dict> = {
       info: "Информации",
       blog: "Блог",
       allPosts: "Сите објави",
-      posts: [
-        { title: "Нови трендови во веб дизајн за 2026 година", meta: "5 мин читање" },
-        { title: "Сè што треба да знаете за безбедноста на вашата веб страна", meta: "7 мин читање" },
-        { title: "Зошто WordPress и WooCommerce се идеален избор за онлајн продажба", meta: "6 мин читање" },
-      ],
       seo: "SEO",
       portfolio: "Портфолио",
       contact: "Контакт",
@@ -634,7 +631,7 @@ export const translations: Record<Lang, Dict> = {
         {
           name: "BN Sound",
           url: "https://www.bnsound.com/",
-          image: "",
+          image: "/portfolio/bn-sound.webp",
           imageAlt: "BN Sound онлајн продавница",
           logo: "/logos/bn-sound.png",
           industry: "Аудио и опрема",
@@ -648,7 +645,7 @@ export const translations: Record<Lang, Dict> = {
         {
           name: "Eco Zone",
           url: "https://www.ecozone.mk/",
-          image: "",
+          image: "/portfolio/eco-zone.webp",
           imageAlt: "Еко Зон онлајн продавница",
           logo: "/logos/eco-zone.webp",
           industry: "Еко производи",
@@ -669,6 +666,7 @@ export const translations: Record<Lang, Dict> = {
       nav: [
         { label: "Почетна", href: "#" },
         { label: "За нас", href: "#services" },
+        { label: "Информации", href: "/informacii" },
         { label: "Рецензии", href: "#testimonials" },
         { label: "Контакт", href: "#contact" },
       ],
@@ -693,6 +691,9 @@ export const translations: Record<Lang, Dict> = {
       phoneLabel: "Телефонски број",
       phonePlaceholder: "пр. +389 70 123 456",
       submit: "Испрати барање",
+      sending: "Се испраќа…",
+      success: "Барањето е испратено! Ќе ве контактираме наскоро.",
+      error: "Нешто тргна наопаку. Обидете се повторно.",
     },
   },
   en: {
@@ -706,11 +707,6 @@ export const translations: Record<Lang, Dict> = {
       info: "Information",
       blog: "Blog",
       allPosts: "All posts",
-      posts: [
-        { title: "New web design trends for 2026", meta: "5 min read" },
-        { title: "Everything you need to know about your website's security", meta: "7 min read" },
-        { title: "Why WordPress and WooCommerce are the ideal choice for online sales", meta: "6 min read" },
-      ],
       seo: "SEO",
       portfolio: "Portfolio",
       contact: "Contact",
@@ -1152,7 +1148,7 @@ export const translations: Record<Lang, Dict> = {
         {
           name: "BN Sound",
           url: "https://www.bnsound.com/",
-          image: "",
+          image: "/portfolio/bn-sound.webp",
           imageAlt: "BN Sound online store",
           logo: "/logos/bn-sound.png",
           industry: "Audio & equipment",
@@ -1166,7 +1162,7 @@ export const translations: Record<Lang, Dict> = {
         {
           name: "Eco Zone",
           url: "https://www.ecozone.mk/",
-          image: "",
+          image: "/portfolio/eco-zone.webp",
           imageAlt: "Eco Zone online store",
           logo: "/logos/eco-zone.webp",
           industry: "Eco products",
@@ -1187,6 +1183,7 @@ export const translations: Record<Lang, Dict> = {
       nav: [
         { label: "Home", href: "#" },
         { label: "About us", href: "#services" },
+        { label: "Blog", href: "/en/blog" },
         { label: "Reviews", href: "#testimonials" },
         { label: "Contact", href: "#contact" },
       ],
@@ -1211,6 +1208,9 @@ export const translations: Record<Lang, Dict> = {
       phoneLabel: "Phone number",
       phonePlaceholder: "e.g. +389 70 123 456",
       submit: "Send request",
+      sending: "Sending…",
+      success: "Request sent! We'll be in touch shortly.",
+      error: "Something went wrong. Please try again.",
     },
   },
 };
