@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BlogIndexPage from "@/components/BlogIndexPage";
 import { getPosts, postPath, blogUI } from "@/lib/blog";
 
-const siteUrl = "https://banana.mk";
+const siteUrl = "https://www.banana.mk";
 
 export const metadata: Metadata = {
   title: "Information & guides on websites, pricing and SEO",

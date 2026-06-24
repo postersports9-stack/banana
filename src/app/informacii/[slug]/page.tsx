@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import BlogPostPage from "@/components/BlogPostPage";
 import { getPosts, getPost, postPath, alternateSlug, coverImage, buildPostLd } from "@/lib/blog";
 
-const siteUrl = "https://banana.mk";
+const siteUrl = "https://www.banana.mk";
 
 // Only the slugs known at build time are served; anything else 404s.
 export const dynamicParams = false;

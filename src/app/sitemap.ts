@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPosts, postPath } from "@/lib/blog";
 
-const siteUrl = "https://banana.mk";
+const siteUrl = "https://www.banana.mk";
 
 // Homepage, service pages, portfolio and the blog (index + every post, both
 // locales). Blog routes are derived from the data module so new posts appear

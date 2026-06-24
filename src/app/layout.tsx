@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 
 // Single source of truth for the production origin. Swap here if the domain
 // changes — metadataBase resolves all relative canonical/OG/sitemap URLs.
-const siteUrl = "https://banana.mk";
+const siteUrl = "https://www.banana.mk";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

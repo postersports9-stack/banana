@@ -51,7 +51,7 @@ export default function SiteFooter({
             <h3 className="font-label-bold text-banana uppercase tracking-widest text-sm mb-6">{t.footer.servicesTitle}</h3>
             <ul className="flex flex-col gap-3 font-body-md text-sm">
               {t.footer.services.map((service) => (
-                <li key={service}><a className="text-white/60 hover:text-banana transition-colors" href="#services">{service}</a></li>
+                <li key={service.label}><a className="text-white/60 hover:text-banana transition-colors" href={service.href}>{service.label}</a></li>
               ))}
             </ul>
           </div>

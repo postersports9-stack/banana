@@ -148,7 +148,7 @@ export type Dict = {
   footer: {
     brandDesc: string;
     servicesTitle: string;
-    services: string[];
+    services: { label: string; href: string }[];
     navTitle: string;
     nav: { label: string; href: string }[];
     contactTitle: string;
@@ -661,14 +661,18 @@ export const translations: Record<Lang, Dict> = {
     footer: {
       brandDesc: "Креативно студио од Македонија. Изработуваме веб страни и интернет продавници кои носат успех.",
       servicesTitle: "Услуги",
-      services: ["Изработка на веб страна", "Интернет продавници", "Одржување на веб страни", "SEO оптимизација"],
+      services: [
+        { label: "Изработка на веб страна", href: "/web-dizajn" },
+        { label: "Интернет продавници", href: "/izrabotka-na-web-prodavnica" },
+        { label: "Одржување на веб страни", href: "/web-dizajn" },
+        { label: "SEO оптимизација", href: "/seo-optimizacija" },
+      ],
       navTitle: "Навигација",
       nav: [
-        { label: "Почетна", href: "#" },
-        { label: "За нас", href: "#services" },
+        { label: "Почетна", href: "/" },
         { label: "Информации", href: "/informacii" },
-        { label: "Рецензии", href: "#testimonials" },
-        { label: "Контакт", href: "#contact" },
+        { label: "Рецензии", href: "/#testimonials" },
+        { label: "Контакт", href: "/#contact" },
       ],
       contactTitle: "Контакт",
       location: "Скопје, Македонија",
@@ -1178,14 +1182,18 @@ export const translations: Record<Lang, Dict> = {
     footer: {
       brandDesc: "A creative studio from Macedonia. We build websites and online stores that drive success.",
       servicesTitle: "Services",
-      services: ["Website Development", "Online Stores", "Website Maintenance", "SEO Optimization"],
+      services: [
+        { label: "Website Development", href: "/en/web-design" },
+        { label: "Online Stores", href: "/en/web-store" },
+        { label: "Website Maintenance", href: "/en/web-design" },
+        { label: "SEO Optimization", href: "/en/seo" },
+      ],
       navTitle: "Navigation",
       nav: [
-        { label: "Home", href: "#" },
-        { label: "About us", href: "#services" },
+        { label: "Home", href: "/en" },
         { label: "Blog", href: "/en/blog" },
-        { label: "Reviews", href: "#testimonials" },
-        { label: "Contact", href: "#contact" },
+        { label: "Reviews", href: "/en#testimonials" },
+        { label: "Contact", href: "/en#contact" },
       ],
       contactTitle: "Contact",
       location: "Skopje, Macedonia",
